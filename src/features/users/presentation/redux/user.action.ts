@@ -1,5 +1,6 @@
 import { createAction } from "@reduxjs/toolkit";
 
-export const fetchUser = createAction<{
+export type FetchUserPayload = {
     id: string
-}>("users/fetchUser");
+}
+export const fetchUser = createAction<FetchUserPayload>("users/fetchUser");

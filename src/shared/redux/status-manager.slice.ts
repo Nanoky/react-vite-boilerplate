@@ -36,7 +36,11 @@ const statusManagerSlice = createSlice({
                 status,
                 error,
                 lastUpdated: now,
-                cacheUntil: cacheDurationMs ? now + cacheDurationMs : undefined,
+                ...(
+                    cacheDurationMs
+                        ? { cacheUntil: now + cacheDurationMs }
+                        : {}
+                ),
                 retries: status === 'error' ? current.retries + 1 : 0,
             };
         },

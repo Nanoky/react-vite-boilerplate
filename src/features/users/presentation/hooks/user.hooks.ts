@@ -1,14 +1,15 @@
 
-import { buildKey } from "../../../../shared/utils/build-key.utils";
-import { useAppDispatch, useAppSelector, type RootState } from "../../../../store";
+import { buildKey } from "@/shared/utils/build-key.utils";
+import { useAppDispatch, useAppSelector, type RootState } from "@/store";
 import { fetchUser } from "../redux/user.action";
+import { useActionStatus } from "@/shared/hooks/use-action-status.hook";
 
 
 export function useUser() {
     const dispatch = useAppDispatch();
     const users = useAppSelector((state: RootState) => state.user.entities);
     const lastFetchedId = useAppSelector((state: RootState) => state.user.lastUpdatedId);
-    const loading = useAppSelector((state) => state.status[buildKey('users', lastFetchedId)]?.status ?? 'idle') === 'loading';
+    const fetchStatus = useActionStatus(buildKey(fetchUser.type, lastFetchedId));
 
     function fetch(id: string) {
         dispatch(fetchUser({
@@ -18,7 +19,7 @@ export function useUser() {
 
     return {
         user: lastFetchedId ? users[lastFetchedId] : null,
-        loading,
+        loading: fetchStatus.isLoading,
         fetch,
     };
 }

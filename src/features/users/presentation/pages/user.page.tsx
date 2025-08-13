@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useUser } from "../hooks/user.hooks";
-import "../redux";
 
 const UserMain = (props: {
   fetchUser: () => void
